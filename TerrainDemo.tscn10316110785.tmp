@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://dda64a4fyppr5"]
+
+[ext_resource type="Script" uid="uid://g1tx27peaane" path="res://Scripts/GPUTerrainLOD.gd" id="1_jd0pj"]
+[ext_resource type="Script" uid="uid://ctxv83mnsyhbr" path="res://camera/Camera.gd" id="2_ar8kx"]
+[ext_resource type="Script" uid="uid://tuy84ttmgjbp" path="res://Scripts/Terrain2DPreview.gd" id="4_3ohsw"]
+[ext_resource type="Script" uid="uid://bfbnf1d58s1kv" path="res://Scripts/TerrainMiniMap.gd" id="4_lvjsv"]
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.732214, 0)
+script = ExtResource("1_jd0pj")
+chunk_size = 1000.0
+height_scale = 2000.0
+erosion_iterations = 15000
+load_if_exists = false
+auto_save_height_png = false
+save_height_path = "G:\\Saves/height_baked.png"
+seed_noise_frequency = 3.01
+moisture_frequency = 4.012
+elevation_exponent = 25.0
+elevation_fudge = 2.2
+island_mix = 0.0
+camera_path = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+far = 1000000.0
+script = ExtResource("2_ar8kx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+modulate = Color(0.12, 0.12, 0.12, 1)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 5.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_3ohsw")
+terrain_path = NodePath("../..")
+
+[node name="Control2" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_lvjsv")
+terrain_path = NodePath("../..")
+camera_or_player_path = NodePath("../../Camera3D")
+corner = 2
+margin = Vector2i(50, 50)
+marker_size_px = 32
